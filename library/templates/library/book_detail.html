@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }}</title>
+</head>
+<body>
+    <h1>عنوان کتاب:{{ book.title }}</h1>
+<p><strong>نویسنده:</strong>{{ book.author }}</p>
+<p><strong>ژانر:</strong>{{ book.genre }}</p>
+<p><strong>وضعیت:</strong> 
+{% if book.available %}
+            موجود است ✅
+        {% else %}
+            امانت داده شده ❌
+        {% endif %}
+</p>
+
+<br>
+<a href="{% url 'book_list' %}">بازگشت به لیست کتاب ها </a>
+
+</body>
+</html>

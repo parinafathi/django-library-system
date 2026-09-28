@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لیست کتاب‌ها</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; margin: 40px; background-color: #f4f4f9; }
+        h1 { color: #333; }
+        .search-box { margin-bottom: 20px; }
+        input[type="text"] { padding: 8px; width: 250px; }
+        button { padding: 8px 15px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; background: #fff; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: right; }
+        th { background-color: #4CAF50; color: white; }
+        .available { color: green; font-weight: bold; }
+        .unavailable { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav style="background-color: #ffffff; padding: 15px 20px; margin-bottom: 25px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; gap: 20px;">
+    <a href="{% url 'book_list' %}" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 16px;">📚 لیست کتاب‌ها</a>
+    <a href="{% url 'member_list' %}" style="text-decoration: none; color: #2c3e50; font-weight: bold; font-size: 16px;">👥 لیست اعضا</a>
+    <a href="{% url 'add_book' %}" style="text-decoration: none; color: #27ae60; font-weight: bold; font-size: 16px;">➕ افزودن کتاب</a>
+</nav>
+    <h1>📚 سیستم مدیریت کتابخانه - لیست کتاب‌ها</h1>
+
+    <!-- فرم جستجو -->
+    <div class="search-box">
+        <form method="GET" action="/books/">
+            <input type="text" name="q" placeholder="جستجوی عنوان یا نویسنده..." value="{{ query }}">
+            <button type="submit">جستجو</button>
+            {% if query %}
+                <a href="/books/">پاکسازی جستجو</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- جدول کتاب‌ها -->
+    <table>
+        <thead>
+            <tr>
+                <th>شناسه</th>
+                <th>عنوان</th>
+                <th>نویسنده</th>
+                <th>ژانر</th>
+                <th>وضعیت</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>
+
+               {{ book.id }}</td>
+  
+                <td><a href="{% url 'book_detail' book.pk %}">{{ book.title }}</a></td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.genre }}</td>
+                <td>
+                    {% if book.available %}
+                        <span class="available">موجود</span>
+                    {% else %}
+                        <span class="unavailable">امانت داده شده</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">هیچ کتابی یافت نشد!</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
